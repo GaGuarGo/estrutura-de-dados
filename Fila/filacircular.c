@@ -1,94 +1,124 @@
 #include <stdio.h>
+#include <stdbool.h>
+
 #define MAX_SIZE 5
 
-struct Queue {
-	int items[MAX_SIZE];
+typedef struct
+{
+	int data[MAX_SIZE];
 	int front;
 	int rear;
-};
+	bool isFull;
+} CircularQueue;
 
-// Função para inicializar a fila
-void initialize(struct Queue* queue) {
+void initQueue(CircularQueue *queue)
+{
 	queue->front = -1;
 	queue->rear = -1;
+	queue->isFull = false;
 }
 
-// Função para verificar se a fila está vazia
-int isEmpty(struct Queue* queue) {
-	return queue->front == -1;
+bool isEmpty(CircularQueue *queue)
+{
+	return (queue->front == -1 && queue->rear == -1);
 }
 
-// Função para verificar se a fila está cheia
-int isFull(struct Queue* queue) {
-	if(queue->rear > queue->front) {
-		return queue->rear == MAX_SIZE - 1;
-	} else {
-		return queue->front == queue->rear + 1;
+bool isFull(CircularQueue *queue)
+{
+	return queue->isFull;
+}
 
+void enqueue(CircularQueue *queue, int value)
+{
+	if (isFull(queue))
+	{
+		printf("Queue is full. Cannot enqueue.\n");
+		return;
+	}
+
+	if (isEmpty(queue))
+	{
+		queue->front = 0;
+		queue->rear = 0;
+	}
+	else
+	{
+		queue->rear = (queue->rear + 1) % MAX_SIZE;
+	}
+
+	queue->data[queue->rear] = value;
+
+	if (queue->rear == ((queue->front - 1 + MAX_SIZE) % MAX_SIZE))
+	{
+		queue->isFull = true;
 	}
 }
 
-// Função para adicionar um elemento à fila
-void enqueue(struct Queue* queue, int value) {
-	if (isFull(queue)) {
-		printf("A fila está cheia. Não é possível adicionar mais elementos.\n");
-	} else {
-		if (isEmpty(queue)) {
-			queue->front = 0;
-		} else if(queue->front > 0 && queue->rear != 0) {
-			queue->rear = 0;
-			queue->items[queue->rear] = value;
-		} else if(queue->front > 0 && queue->rear >= 0) {
-			queue->rear++;
-			queue->items[queue->rear] = value;
-		} else {
-			queue->rear++;
-			queue->items[queue->rear] = value;
-		}
-
-	}
-}
-
-// Função para remover um elemento da fila
-int dequeue(struct Queue* queue) {
-	int item;
-	if (isEmpty(queue)) {
-		printf("A fila está vazia. Não é possível remover elementos.\n");
+int dequeue(CircularQueue *queue)
+{
+	if (isEmpty(queue))
+	{
+		printf("Queue is empty. Cannot dequeue.\n");
 		return -1;
-	} else {
-//		item = queue->items[queue->front];
-
-		if(queue->front > queue->rear) {
-			if(queue->front	== MAX_SIZE-1 && queue->rear >=0 ) {
-				queue->front = 0;
-			} 
-		} else if (queue->front == queue->rear) {
-			queue->front = queue->rear = -1;
-		} else {
-			queue->front++;
-		}
-		item = queue->items[queue->front];
-		return item;
 	}
+
+	int dequeuedValue = queue->data[queue->front];
+
+	if (queue->front == queue->rear)
+	{
+		queue->front = -1;
+		queue->rear = -1;
+		queue->isFull = false;
+	}
+	else
+	{
+		queue->front = (queue->front + 1) % MAX_SIZE;
+	}
+
+	return dequeuedValue;
 }
 
+void displayQueue(CircularQueue *queue)
+{
+	if (isEmpty(queue))
+	{
+		printf("Queue is empty.\n");
+		return;
+	}
 
-int main() {
+	printf("Queue: ");
+	int i = queue->front;
+	do
+	{
+		printf("%d ", queue->data[i]);
+		i = (i + 1) % MAX_SIZE;
+	} while (i != (queue->rear + 1) % MAX_SIZE);
+	printf("\n");
+}
 
-	struct Queue queue;
-	initialize(&queue);
+int main()
+{
+	CircularQueue queue;
+	initQueue(&queue);
 
 	enqueue(&queue, 10);
 	enqueue(&queue, 20);
 	enqueue(&queue, 30);
 
-	printf("Elemento removido: %d\n", dequeue(&queue));
-	printf("Elemento removido: %d\n", dequeue(&queue));
+	displayQueue(&queue);
 
+	printf("Dequeued: %d\n", dequeue(&queue));
+	printf("Dequeued: %d\n", dequeue(&queue));
 
 	enqueue(&queue, 40);
 	enqueue(&queue, 50);
+
+	displayQueue(&queue);
+
 	enqueue(&queue, 60);
+	enqueue(&queue, 70);
+
+	displayQueue(&queue);
 
 	return 0;
 }

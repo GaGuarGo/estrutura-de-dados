@@ -125,7 +125,23 @@ void adicionarTarefa(CircularQueue *trabalho, int time)
 	else
 	{
 		printf("\nTarefa Adicionada com Sucesso!\n\n");
-		enqueue(trabalho, time);
+		enqueue(trabalho, &time);
+	}
+}
+
+void executarTarefa(CircularQueue *trabalho)
+{
+
+	if (isEmpty)
+	{
+
+		printf("Não Há tarefas a serem Executadas!");
+	}
+	else
+
+	{
+		printf("Tarefa Executada com Sucesso!");
+		dequeue(trabalho);
 	}
 }
 
@@ -151,10 +167,13 @@ int main()
 
 			printf("Digite a duração da tarefa em Minutos: [m]\n");
 			scanf("%d", &minutos);
+
 			adicionarTarefa(&trabalho, minutos);
 
 			break;
 		case 2:
+
+			executarTarefa(&trabalho);
 
 			break;
 

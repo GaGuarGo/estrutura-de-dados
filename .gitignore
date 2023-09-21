@@ -1,6 +1,11 @@
 /Materiais/
 .xlsx
-./exe
+.exe
 .vscode
 /Fila/output
+/Lista/output
+/alocacao_dinamica/output
 .json
+.gitignore
+*.exe
+*/output

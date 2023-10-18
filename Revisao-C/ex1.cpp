@@ -22,7 +22,7 @@ int main() {
 		printf("%d ", vetor2[i]);
 	}
 	
-	
+
 	printf("\n\nVetor Soma: \n");
 	for(int i = 0; i < TAM; i++ ){
 		printf("%d ", vetor1[i] +vetor2[i]);

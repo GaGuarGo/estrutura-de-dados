@@ -100,7 +100,6 @@ struct LinkedList *createLinkedList(struct DoublyLinkedList *list)
             }
             // insere no final
             currentSimple->next = newNode;
-            // newNode->next = NULL;
         }
         // Dá continuidade para o loop para outro elemento da lista duplamente encadeada
         current = current->next;

@@ -29,7 +29,7 @@ void insert(char *key, int value) {
     newNode->value = value;
     //aponta para o próximo que ja está na lista dentro da table
     newNode->next = table[index];
-    //Entra na na posição que o primeiro da lista ocupava
+    //Entra na na posição que o primeiro da lista
     table[index] = newNode;
 }
 

@@ -219,25 +219,25 @@ int lenghtList(struct DoublyLinkedList *list)
 int main()
 {
 
-   // int vetor[MAX_SIZE] = {-9, 5, 4, 5, -9, -5, 4, 7, 9, 1};
+    int vetor[MAX_SIZE] = {-9, 5, 4, 5, -9, -5, 4, 7, 9, 1};
 
     struct Stack myStack;
     initialize(&myStack);
 
-    printf("Preencha A pilha com 10 valores: \n");
-    for (int i = 0; i < 10; i++)
-    {
-        int valor;
-        printf("Valor %d: ", i + 1);
-        scanf("%d", &valor);
-        push(&myStack, valor);
-    }
+    // printf("Preencha A pilha com 10 valores: \n");
+    // for (int i = 0; i < 10; i++)
+    // {
+    //     int valor;
+    //     printf("Valor %d: ", i + 1);
+    //     scanf("%d", &valor);
+    //     push(&myStack, valor);
+    // }
 
     // TRANSFORMAR A PILHA EM LISTA DUPLAMENTE ENCADEADA
     struct DoublyLinkedList *list = createDoublyLinkedList();
     for (int i = 0; i < MAX_SIZE; i++)
     {
-        insertAtEnd(list, pop(&myStack));
+        insertAtEnd(list, vetor[i]);
     }
 
     printf("LISTA INTEIRA: \n");
